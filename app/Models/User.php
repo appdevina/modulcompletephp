@@ -2,26 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -31,6 +27,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -38,7 +36,31 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
+
+    public function scopeFilter($query)
+    {
+        if (request('search')) {
+            $query->where('full_name', "like", '%' . request('search') . '%')
+            ->orWhere('username', "like", '%' . request('search') . '%');
+        }
+    }
+
+    public function divisi()
+    {
+        return $this->belongsTo(Divisi::class);
+    }
+
+    public function subdivisi()
+    {
+        return $this->belongsTo(SubDivisi::class,'sub_divisi_id');
+    }
+
+    public function joblevel()
+    {
+        return $this->belongsTo(JobLevel::class,'job_level_id');
+    }
+
 }
