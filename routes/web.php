@@ -62,7 +62,6 @@ Route::middleware(['auth','isAdmin'])->group(
         Route::get('quiz/result/export/{quiz}', [QuizController::class, 'export']);
         Route::get('quiz/history/export/{quizHistory}', [QuizController::class, 'exporthistory']);
 
-
         ##DOCUMENT
         Route::get('document', [DocumentController::class, 'index']);
         Route::post('document', [DocumentController::class, 'store']);
@@ -103,6 +102,9 @@ Route::middleware(['auth','isAdmin'])->group(
         ##USER
         Route::get('user', [UserController::class, 'index']);
         Route::post('user', [UserController::class, 'store']);
+        Route::post('user/import',[UserController::class,'import']);
+        Route::get('user/export', [UserController::class, 'export']);
+        Route::get('user/template', [UserController::class, 'template']);
         Route::get('user/create', [UserController::class, 'create']);
         Route::get('user/delete/{user}', [UserController::class, 'destroy']);
         Route::get('user/active/{id}', [UserController::class, 'active']);

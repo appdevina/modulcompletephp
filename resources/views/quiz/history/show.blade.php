@@ -16,7 +16,7 @@
                                         <button class="badge bg-primary mx-3 elevation-0">EXPORT
                                             ALL</button></a> --}}
                                 </div>
-                                <div class="card-tools">
+                                {{-- <div class="card-tools">
                                     <div class="input-group input-group-sm" style="width: 150px;">
                                         <form action={{ '/quiz/history/' . $history->id }} class="d-inline-flex">
                                             <input type="text" name="search" class="form-control float-right"
@@ -28,7 +28,7 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">

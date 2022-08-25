@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
+use App\Exports\UserTemplate;
+use App\Imports\UserImport;
 use App\Models\Divisi;
 use App\Models\JobLevel;
 use App\Models\SubDivisi;
@@ -9,6 +12,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\PersonalAccessToken;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -24,6 +28,33 @@ class UserController extends Controller
             'active' => 'setting',
             'users' => User::with(['joblevel', 'divisi', 'subdivisi'])->filter()->withTrashed()->orderBy('full_name')->get(),
         ]);
+    }
+
+    public function import(Request $request)
+    {
+        try {
+            $file = $request->file('file');
+            $namaFile = $file->getClientOriginalName();
+            $file->move(public_path('import'), $namaFile);
+
+            Excel::import(new UserImport, public_path('/import/' . $namaFile));
+            unlink(
+                public_path('import/' . $namaFile)
+            );
+            return redirect('user')->with(['success' => 'berhasil import user']);
+        } catch (Exception $e) {
+            return redirect('user')->with(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function template()
+    {
+        return Excel::download(new UserTemplate, 'user_template.xlsx');
+    }
+
+    public function export()
+    {
+        return Excel::download(new UserExport, 'user_export.xlsx');
     }
 
     /**
@@ -82,17 +113,17 @@ class UserController extends Controller
     {
         $user = User::with(['joblevel', 'divisi', 'subdivisi.divisi'])->find($id);
 
-        if(!$user){
+        if (!$user) {
             return redirect('user')->with(['error' => 'Tidak bisa mengedit user yang nonaktif, aktifkan terlebih dahulu']);
         }
 
-        return view('setting.user.edit',[
+        return view('setting.user.edit', [
             'title' => 'User',
             'active' => 'setting',
             'user' => $user,
             'joblevels' => JobLevel::all(),
             'divisis' => Divisi::all(),
-            'subdivisis' => SubDivisi::where('divisi_id',$user->divisi_id)->get(),
+            'subdivisis' => SubDivisi::where('divisi_id', $user->divisi_id)->get(),
         ]);
     }
 
@@ -116,11 +147,11 @@ class UserController extends Controller
             ]);
             $data = $request->all();
             unset($data['_token']);
-            $subdivisi = SubDivisi::where('divisi_id',$request->divisi_id)->get();
-            if(count($subdivisi) === 0){
+            $subdivisi = SubDivisi::where('divisi_id', $request->divisi_id)->get();
+            if (count($subdivisi) === 0) {
                 $data['sub_divisi_id'] = null;
             }
-            if($request->password == null){
+            if ($request->password == null) {
                 $data['password'] = $user['password'];
             }
             $user->update($data);
@@ -128,7 +159,6 @@ class UserController extends Controller
         } catch (Exception $e) {
             return redirect('user')->with(['error' => $e->getMessage()]);
         }
-
     }
 
     /**
@@ -142,7 +172,6 @@ class UserController extends Controller
         try {
             $user->delete();
             return redirect('user')->with(['success' => 'Berhasil menonaktifkan user']);
-
         } catch (Exception $e) {
             return redirect('user')->with(['error' => $e->getMessage()]);
         }
