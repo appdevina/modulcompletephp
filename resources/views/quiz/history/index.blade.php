@@ -66,7 +66,7 @@
                                                             class="fas fa-eye"></i></span></a>
                                                 <a href={{ '/quiz/history/delete/' . $history->id }}
                                                     onclick="return confirm('Apalah anda yakin menghapus quiz {{ $history->quiz->document->name }} atas nama {{ $history->user->full_name }}?')"
-                                                    target='_blank' data-toggle="tooltip" title="view"
+                                                     data-toggle="tooltip" title="view"
                                                     class="badge bg-danger"><span><i
                                                             class="fas fa-times-circle"></i></span></a>
                                                 <a href={{ '/quiz/history/export/' . $history->id }} target='#'

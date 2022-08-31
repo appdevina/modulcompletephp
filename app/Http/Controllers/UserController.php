@@ -188,4 +188,12 @@ class UserController extends Controller
             return redirect('user')->with(['error' => $e->getMessage()]);
         }
     }
+
+    public function download(Request $request)
+    {
+        return response()->download(public_path('/storage/apk/modul.apk'), 'modul.apk', [
+            'Content-Type' => 'application/vnd.android.package-archive',
+            'Content-Disposition' => 'attachment; filename="android.apk"',
+        ]);
+    }
 }

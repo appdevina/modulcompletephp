@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateQuizHistoryRequest;
 use App\Models\QuizHistory;
 use Illuminate\Http\Request;
 use App\Models\QuizUserAnswer;
+use Exception;
 
 class QuizHistoryController extends Controller
 {
@@ -118,6 +119,15 @@ class QuizHistoryController extends Controller
      */
     public function destroy(QuizHistory $quizHistory)
     {
-        //
+        try {
+            $historyAnswer = QuizUserAnswer::where('user_id',$quizHistory->user_id)->where('quiz_id',$quizHistory->quiz_id)->get();
+            foreach ($historyAnswer as $historyAnswer) {
+                $historyAnswer->forceDelete();
+            }
+            $quizHistory->forceDelete();
+            return redirect('quiz/history')->with(['success' => 'Berhasil menghapus history']);
+        } catch (Exception $e) {
+            return back()->with(['error' => $e->getMessage()]);
+        }
     }
 }

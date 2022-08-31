@@ -26,7 +26,7 @@ class QuizQuestionController extends Controller
             'active' => 'quiz',
             'documents' => Document::whereHas('question')->withTrashed()->filter()->get(),
             'questions' => QuizQuestion::with(['document.joblevel'])->withTrashed()->get(),
-            'alldocs' => Document::doesntHave('question')->get(),
+            'alldocs' => Document::doesntHave('question')->where('document_type','!=',6)->where('document_type', '!=', 2)->get(),
         ]);
     }
 

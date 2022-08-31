@@ -38,7 +38,7 @@ class DocumentController extends Controller
                     $document = Document::where('divisi_id', auth()->user()->divisi_id)->where('document_type', 2)->orderBy('name')->get();
                     break;
                 case 'service':
-                    $document = Document::where('divisi_id', auth()->user()->divisi_id)->whereIn('job_level_id',[auth()->user()->job_level_id,9])->where('document_type', 4)->orderBy('name')->get();
+                    $document = Document::where('divisi_id', auth()->user()->divisi_id)->where('document_type', 4)->orderBy('name')->get();
                     break;
                 case 'operational':
                     $document = Document::where('divisi_id', auth()->user()->divisi_id)->where('document_type', 3)->orderBy('name')->get();

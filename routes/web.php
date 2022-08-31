@@ -13,6 +13,7 @@ use App\Http\Controllers\QuizOptionController;
 use App\Http\Controllers\QuizQuestionController;
 use App\Http\Controllers\SubDivisiController;
 use App\Http\Controllers\UserController;
+use App\Models\QuizHistory;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::get('/', function () {
 })->name('login');
 
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::get('download/app', [UserController::class, 'download']);
 
 Route::middleware(['auth','isAdmin'])->group(
     function () {
@@ -61,6 +62,8 @@ Route::middleware(['auth','isAdmin'])->group(
         Route::get('quiz/delete/{quiz}', [QuizController::class, 'destroy']);
         Route::get('quiz/result/export/{quiz}', [QuizController::class, 'export']);
         Route::get('quiz/history/export/{quizHistory}', [QuizController::class, 'exporthistory']);
+        Route::get('quiz/history/delete/{quizHistory}', [QuizHistoryController::class, 'destroy']);
+
 
         ##DOCUMENT
         Route::get('document', [DocumentController::class, 'index']);
