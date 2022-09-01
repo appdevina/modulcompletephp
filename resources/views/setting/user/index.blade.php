@@ -11,10 +11,10 @@
                             <div class="card-header bg-dark">
                                 <div class="row d-inline-flex">
                                     <h3 class="card-title">User</h3>
-                                    <a href="/user/export">
+                                    {{-- <a href="/user/export">
                                         <button class="badge bg-primary mx-3 elevation-0">EXPORT
                                             ALL</button>
-                                    </a>
+                                    </a> --}}
                                     <a href="/user/template"><button class="badge bg-warning mx-3 elevation-0">TEMPLATE
                                             IMPORT</button>
                                     </a>

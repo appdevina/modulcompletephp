@@ -20,6 +20,7 @@ class QuizQuestionTemplate implements WithHeadings
             'option_b',
             'option_c',
             'option_d',
+            'seconds'
         ];
     }
 }

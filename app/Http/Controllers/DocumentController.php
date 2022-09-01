@@ -159,7 +159,7 @@ class DocumentController extends Controller
         try {
             $document = Document::find($id);
             $document->delete();
-            return redirect('document')->with(['success' => 'Berhasil menghapus dokumen']);
+            return redirect('document')->with(['success' => 'Berhasil menonaktifkan dokumen']);
         } catch (Exception $e) {
             return redirect('document')->with(['error' => $e->getMessage()]);
         }

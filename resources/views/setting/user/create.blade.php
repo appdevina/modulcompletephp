@@ -22,13 +22,13 @@
                                                 required>
                                         </div>
                                         <div class="mb-3 col-lg-4">
-                                            <label for="username" class="form-label">User Name (NIK)</label>
+                                            <label for="username" class="form-label">User Name</label>
                                             <input type="text" class="form-control" id="username" name="username" autocomplete="off"
                                                 required>
                                         </div>
                                         <div class="mb-3 col-lg-4">
                                             <label for="password" class="form-label">Password</label>
-                                            <input type="text" class="form-control" id="password" name="password" autocomplete="off"
+                                            <input type="password" class="form-control" id="password" name="password" autocomplete="off"
                                                 required>
                                         </div>
                                     </div>

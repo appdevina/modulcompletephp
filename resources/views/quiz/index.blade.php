@@ -111,11 +111,11 @@
                             </select>
                         </div>
                         <div class="mb-3 col-lg-12">
-                            <label for="date" class="form-label">Date</label>
+                            <label for="date" class="form-label">Start</label>
                             <input type="datetime-local" class="form-control" id="start" name="start" required>
                         </div>
                         <div class="mb-3 col-lg-12">
-                            <label for="date" class="form-label">Date</label>
+                            <label for="date" class="form-label">End</label>
                             <input type="datetime-local" class="form-control" id="end" name="end" required>
                         </div>
                     </div>

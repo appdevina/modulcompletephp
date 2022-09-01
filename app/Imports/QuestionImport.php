@@ -26,6 +26,7 @@ class QuestionImport implements ToCollection, WithStartRow
             $question = QuizQuestion::create([
                 'document_id' => $this->documentId,
                 'question' => $row[0],
+                'seconds' => $row[6],
             ]);
             for ($i = 2; $i < 6; $i++) {
                 $quizOption = QuizOption::create([
