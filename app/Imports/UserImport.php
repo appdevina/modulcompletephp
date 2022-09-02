@@ -25,8 +25,8 @@ class UserImport implements ToModel, WithHeadingRow
                 'username' => strtolower(str_replace(".", "", preg_replace('/\s+/', '', $row['username']))),
                 'password' => $row['password'] ? bcrypt($row['password']) : bcrypt('complete123'),
                 'divisi_id' => Divisi::where('name', preg_replace('/\s+/', '', $row['divisi']))->first()->id,
-                'sub_divisi_id' => $row['sub_divisi'] ? SubDivisi::where('name', preg_replace('/\s+/', '', $row['sub_divisi']))->first()->id : null,
-                'job_level_id' => JobLevel::where('name', preg_replace('/\s+/', '', $row['job_level']))->first()->id,
+                'sub_divisi_id' => $row['sub_divisi'] ? SubDivisi::where('name', $row['sub_divisi'])->first()->id : null,
+                'job_level_id' => JobLevel::where('name', $row['job_level'])->first()->id,
             ]);
         }
     }
