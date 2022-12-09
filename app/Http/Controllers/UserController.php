@@ -22,11 +22,18 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+     {
+    //     $last_seen = User::with(['lastSeen'=> function($q){
+    //         $q -> orderBy('last_used_at', 'DESC');
+    //     }])->get();
+    //     dd($last_seen[1]);
         return view('setting.user.index', [
             'title' => 'User',
             'active' => 'setting',
-            'users' => User::with(['joblevel', 'divisi', 'subdivisi'])->filter()->withTrashed()->orderBy('full_name')->get(),
+            'users' => User::with(['joblevel', 'divisi', 'subdivisi', 'lastSeen'=> function($q){
+                $q -> orderBy('last_used_at', 'DESC');
+            }])->filter()->withTrashed()->orderBy('full_name')->get(),
+
         ]);
     }
 

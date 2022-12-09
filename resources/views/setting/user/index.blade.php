@@ -60,6 +60,7 @@
                                         <th>Sub Divisi</th>
                                         <th>Job Level</th>
                                         <th>Status</th>
+                                        <th>Last Seen</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -79,6 +80,8 @@
                                                     AKTIF
                                                 @endif
                                             </td>
+                                            <td>{{ count($user->lastSeen) ?  $user->lastSeen[0]->last_used_at->format('d M Y H:i') : 'Inactive' }}</td>
+                                            {{-- <td>{{ count($user->lastSeen) }}</td> --}}
                                             <td>
                                                 <a href="/user/{{ $user->id }}" class="badge bg-warning"><span><i
                                                             class="fas fa-edit"></i></span></a>

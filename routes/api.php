@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AbsentController;
 use App\Http\Controllers\API\DocumentController;
 use App\Http\Controllers\API\QuizController;
 use App\Http\Controllers\API\UserController;
@@ -34,5 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('quiz/isquizable/{quiz}',[QuizController::class,'isquizable']);
     Route::get('quiz/calculate/{quiz}', [QuizController::class, 'calculate']);
     Route::get('quiz/history/', [QuizController::class, 'history']);
+
+    ##ABSENT
+    Route::get('check', [AbsentController::class, 'checkAbsent']);
+    Route::post('check',[AbsentController::class, 'create']);
 });
 

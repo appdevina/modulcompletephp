@@ -46,6 +46,9 @@ class DocumentController extends Controller
                 case 'sales':
                     $document = Document::where('divisi_id', auth()->user()->divisi_id)->where('document_type', 5)->orderBy('name')->get();
                     break;
+                case 'quiz':
+                    $document = Document::where('divisi_id', auth()->user()->divisi_id)->where('document_type', 7)->orderBy('name')->get();
+                    break;
                 default:
                     $document = Document::where('document_type',6)->orderBy('name')->get();
                     break;

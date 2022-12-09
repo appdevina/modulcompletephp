@@ -78,7 +78,11 @@
                                             <td>{{ date('d M Y H:i', $quiz->end / 1000) }}</td>
                                             <td><a href="quiz/result/export/{{ $quiz->id }}" target='#'
                                                     data-toggle="tooltip" title="download" class="badge bg-success"><span><i
-                                                            class="fas fa-download"></i></span></a></td>
+                                                            class="fas fa-download"></i></span></a>
+                                                <a href={{ '/quiz/history/exportall/' . $quiz->id }} target='#'
+                                                    data-toggle="tooltip" title="download" class="badge bg-success"><span><i
+                                                            class="fas fa-download"></i> All </span></a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

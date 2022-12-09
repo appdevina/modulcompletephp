@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\User;
+use App\Models\Document;
+use App\Models\Quiz;
+use App\Models\QuizHistory;
+use DB;
+
 class DashboardController extends Controller
 {
     /**
@@ -13,9 +19,27 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $totalUser = User::count();
+        $totalDocument = Document::count();
+        $totalQuiz = Quiz::count();
+        $totalHistory = QuizHistory::count();
+
+
+        $users = User::where('deleted_at', null)
+        ->selectRaw('created_at, MONTH(created_at) as bulan')
+        ->get()
+        ->groupBy('created_at', 'bulan');
+
         return view('dashboard.index',[
             'title' => 'Dashboard',
-            'active' => 'dashboard'
+            'active' => 'dashboard',
+            'data' => [
+                'totalUser' => $totalUser,
+                'totalDocument' => $totalDocument,
+                'totalQuiz' => $totalQuiz,
+                'totalHistory' => $totalHistory,
+                'users' => $users,
+            ]
         ]);
     }
 

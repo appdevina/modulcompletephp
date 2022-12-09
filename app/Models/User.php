@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class User extends Authenticatable
 {
@@ -61,6 +62,16 @@ class User extends Authenticatable
     public function joblevel()
     {
         return $this->belongsTo(JobLevel::class,'job_level_id');
+    }
+
+    public function lastSeen()
+    {
+        return $this->hasMany(PersonalAccessToken::class, 'tokenable_id');
+    }
+
+    public function absent()
+    {
+        return $this->hasMany(Absent::class, 'user_id');
     }
 
 }

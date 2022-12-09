@@ -12,6 +12,9 @@ use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+#ADD QuizAllHistoryExport
+use App\Exports\QuizAllHistoryExport;
+
 class QuizController extends Controller
 {
     /**
@@ -145,6 +148,15 @@ class QuizController extends Controller
     {
         try {
             return Excel::download(new QuizHistoryExport($quizHistory->quiz_id, $quizHistory->user_id), 'QUIZ HISTORY ' . $quizHistory->quiz->document->name . ' ' . $quizHistory->user->full_name . '.xlsx');
+        } catch (Exception $e) {
+            return back()->with(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function exportAllHistory(Request $request, Quiz $quiz)
+    {
+        try {
+            return Excel::download(new QuizAllHistoryExport($quiz->id), 'QUIZ HISTORY ' . $quiz->document->name . ' ' . '.xlsx');
         } catch (Exception $e) {
             return back()->with(['error' => $e->getMessage()]);
         }
