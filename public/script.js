@@ -78,4 +78,6 @@ $(document).ready(function () {
     $('#modalClose').click(function (e) {
         $('#modalOption').modal('hide');
     });
+
+    $('#tanggal').daterangepicker();
 });

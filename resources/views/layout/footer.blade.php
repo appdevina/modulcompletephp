@@ -18,6 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
 <!-- Select2 -->
 <script src="{{ asset('template') }}/plugins/select2/js/select2.full.min.js"></script>
+<!-- date-range-picker -->
+<script src="{{ asset('template') }}/plugins/daterangepicker/daterangepicker.js"></script>
 <script src="{{ asset('script.js') }}"></script>
 </body>
 

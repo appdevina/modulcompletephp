@@ -7,9 +7,31 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
 use App\Models\Absent;
+use App\Helpers\ConvertDate;
+use Carbon\Carbon;
 
 class AbsentController extends Controller
 {
+    public function index(Request $request){
+        if ($request->date) {
+            $data = explode('-', preg_replace('/\s+/', '', $request->date));
+            $date1 = Carbon::parse($data[0])->format('Y-m-d');
+            $date2 = Carbon::parse($data[1])->format('Y-m-d');
+            $absents = Absent::with('user')
+                ->whereBetween('created_at', [$date1, $date2])
+                ->orderBy('created_at')
+                ->get();
+        } else {
+            $absents = Absent::all();
+        }
+
+        return view('absent.index',[
+            'title' => 'Absent',
+            'active' => 'absent',
+            'absents' => $absents,
+        ]);
+    }
+
     public function checkAbsent(Request $request)
     {
     // user cal api param date -> check table absent -> kalo ada -> return error -> balik ke mobile itu false

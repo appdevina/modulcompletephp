@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('template') }}/dist/css/adminlte.min.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('template') }}/plugins/select2/css/select2.min.css">
+     <!-- daterange picker -->
+     <link rel="stylesheet" href="{{ asset('template') }}/plugins/daterangepicker/daterangepicker.css">
     <style>
         /* We are stopping user from
         printing our webpage */

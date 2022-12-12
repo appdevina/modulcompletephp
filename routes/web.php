@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AbsentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -117,5 +118,8 @@ Route::middleware(['auth','isAdmin'])->group(
 
         ##HELPERS
         Route::get('subdivisi/get/{id}', [SubDivisiController::class, 'show']);
+
+        ##ABSENT
+        Route::get('absent', [AbsentController::class, 'index']);
     }
 );

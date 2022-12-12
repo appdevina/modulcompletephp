@@ -20,7 +20,13 @@
                  data-accordion="false">
                  <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                 <li class="nav-item my-1">
+                <li class="nav-item my-1=">
+                    <a href="/absent" class="nav-link">
+                        <i class="nav-icon fas fa-address-book"></i>
+                        <p>Absent</p>
+                    </a>
+                </li>
+                 <li class="nav-item">
                      <a href="/document" class="nav-link">
                          <i class="nav-icon fas fa-folder"></i>
                          <p>Document</p>
