@@ -22,7 +22,7 @@ class AbsentController extends Controller
                 ->orderBy('created_at')
                 ->get();
         } else {
-            $absents = Absent::all();
+            $absents = Absent::simplePaginate(10);
         }
 
         return view('absent.index',[

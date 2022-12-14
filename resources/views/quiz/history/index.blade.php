@@ -85,4 +85,43 @@
             </div>
         </section>
     </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <!-- WILL ADD ABSENT TABLE HERE -->
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <div class="row d-inline-flex">
+                                <h3 class="card-title">Value Rank</h3>
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive p-0" style="height: 500px;">
+                            <table class="table table-head-fixed text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>User</th>
+                                        <th>Total Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($totalValue as $history)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $history->user->full_name }}</td>
+                                            <td>{{ $history->totalValue }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

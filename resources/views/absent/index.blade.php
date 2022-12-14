@@ -53,6 +53,11 @@
                     </div>
                 </div>
             </div>
+            @if (count($absents) == 10)
+                    <div class="d-flex justify-content-center">
+                        {{ $absents->links() }}
+                    </div>
+                @endif
         </section>
     </section>
 @endsection

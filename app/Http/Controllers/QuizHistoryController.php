@@ -18,6 +18,12 @@ class QuizHistoryController extends Controller
      */
     public function index(Request $request)
     {
+        $totalValue = QuizHistory::with('user')
+        ->selectRaw('user_id, sum(value) as totalValue')
+        ->groupBy('user_id')
+        ->orderBy('totalValue', 'DESC')
+        ->get();
+
         return view('quiz.history.index', [
             'title' => 'Quiz History',
             'active' => 'quiz',
@@ -29,6 +35,7 @@ class QuizHistoryController extends Controller
                         ->orWhere('username', "like", '%' . $request->search . '%');
                 })->orderBy('created_at', 'DESC')->simplePaginate(100) : QuizHistory::with(['user', 'quiz.document'])->orderBy('created_at', 'DESC')
                 ->simplePaginate(100),
+             'totalValue' => $totalValue,
 
         ]);
     }
