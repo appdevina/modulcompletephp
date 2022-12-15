@@ -80,4 +80,8 @@ $(document).ready(function () {
     });
 
     $('#tanggal').daterangepicker();
+
+    $('#tanggalExport').daterangepicker({
+        parentEl: "#exportAbsent .modal-body"
+    });
 });

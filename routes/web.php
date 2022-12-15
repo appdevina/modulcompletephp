@@ -121,5 +121,6 @@ Route::middleware(['auth','isAdmin'])->group(
 
         ##ABSENT
         Route::get('absent', [AbsentController::class, 'index']);
+        Route::post('absent/export', [AbsentController::class, 'exportAbsent']);
     }
 );

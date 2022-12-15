@@ -7,6 +7,8 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
 use App\Models\Absent;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\AbsentExport;
 use App\Helpers\ConvertDate;
 use Carbon\Carbon;
 
@@ -59,5 +61,19 @@ class AbsentController extends Controller
         } catch (Exception $e) {
             return ResponseFormatter::error(null, $e->getMessage());
         }
+    }
+
+    public function exportAbsent(Request $request){
+        if ($request->exportAbsent) {
+            $data = explode('-', preg_replace('/\s+/', '', $request->exportAbsent));
+            $date1 = Carbon::parse($data[0])->format('Y-m-d');
+            $date2 = Carbon::parse($data[1])->format('Y-m-d');
+            $absents = Absent::with('user')
+                ->whereBetween('created_at', [$date1, $date2])
+                ->orderBy('created_at')
+                ->get();
+        }
+
+        return Excel::download(new AbsentExport($date1, $date2), 'absent_' . $date1 . '_to_' . $date2 . '.xlsx',);
     }
 }
