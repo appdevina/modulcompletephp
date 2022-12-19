@@ -18,11 +18,68 @@ class QuizHistoryController extends Controller
      */
     public function index(Request $request)
     {
-        $totalValue = QuizHistory::with('user')
-        ->selectRaw('user_id, sum(value) as totalValue')
-        ->groupBy('user_id')
-        ->orderBy('totalValue', 'DESC')
-        ->get();
+        try {
+            if ($request->dateChart) {
+                $dateChart = $request->dateChart;
+                //dd($dateChart);
+
+                $highestValue = QuizHistory::with('user')
+                 ->selectRaw('user_id, sum(value) as highestValue')
+                 ->where('created_at', 'LIKE', '%'.$dateChart.'%')
+                 ->groupBy('user_id')
+                 ->orderBy('highestValue', 'DESC')
+                 ->limit(3)
+                 ->get();
+
+                 $lowestValue = QuizHistory::with('user')
+                ->selectRaw('user_id, sum(value) as lowestValue')
+                ->where('created_at', 'LIKE', '%'.$dateChart.'%')
+                ->groupBy('user_id')
+                ->orderBy('lowestValue', 'ASC')
+                ->limit(3)
+                ->get();
+
+            } else {
+                $highestValue = QuizHistory::with('user')
+                ->selectRaw('user_id, sum(value) as highestValue')
+                ->groupBy('user_id')
+                ->orderBy('highestValue', 'DESC')
+                ->limit(3)
+                ->get();
+
+                $lowestValue = QuizHistory::with('user')
+                ->selectRaw('user_id, sum(value) as lowestValue')
+                ->groupBy('user_id')
+                ->orderBy('lowestValue', 'ASC')
+                ->limit(3)
+                ->get();
+            }
+
+            $highestName = [];
+            $highestScore = [];
+            $lowestName = [];
+            $lowestScore = [];
+
+            foreach($highestValue as $user){
+                $highestName[] = $user->user->full_name;
+                $highestScore[] = $user->highestValue;
+            }
+
+            foreach($lowestValue as $value){
+                $lowestName[] = $value->user->full_name;
+                $lowestScore[] = $value->lowestValue;
+            }
+
+            if ($highestName == [] || $highestScore == [] || $lowestName == [] || $lowestScore == []) {
+                $highestName = ['null', 'null', 'null'];
+                $highestScore = ['0','0','0'];
+                $lowestName = ['null', 'null', 'null'];
+                $lowestScore = ['0','0','0'];
+            }
+
+        } catch (Exception $e) {
+            return redirect('quiz.history.index')->with(['error' => $e->getMessage()]);
+        }
 
         return view('quiz.history.index', [
             'title' => 'Quiz History',
@@ -35,8 +92,12 @@ class QuizHistoryController extends Controller
                         ->orWhere('username', "like", '%' . $request->search . '%');
                 })->orderBy('created_at', 'DESC')->simplePaginate(100) : QuizHistory::with(['user', 'quiz.document'])->orderBy('created_at', 'DESC')
                 ->simplePaginate(100),
-             'totalValue' => $totalValue,
-
+             'highestValue' => $highestValue,
+             'highestName' => $highestName,
+             'highestScore' => $highestScore,
+             'lowestValue' => $lowestValue,
+             'lowestName' => $lowestName,
+             'lowestScore' => $lowestScore,
         ]);
     }
 

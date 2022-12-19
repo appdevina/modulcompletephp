@@ -7,6 +7,41 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
+                        <div class="container-fluid bg-white">
+                            <br>
+                            <div class="row float-right">
+                                <div class="card-tools d-flex">
+                                    <div class="input-group input-group-sm mr-3" style="widows: 400px;">
+                                        <form action="/quiz/history" class="d-inline-flex float-right">
+                                            <input type="text" class="form-control float-right" value="" name="dateChart"
+                                                id="tanggalChart" placeholder="Pilih Bulan .." required>
+                                            <div class="input-group-append float-right">
+                                                <button type="submit" class="btn btn-default">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class=" row">
+                                <div class="col-6">
+                                    <div class="panel">
+                                        <div id="chartHighest">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="panel">
+                                        <div id="chartLowest">
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> 
+                        </div>              
+                        <br>
                         <div class="card">
                             <div class="card-header bg-dark">
                                 <div class="row d-inline-flex">
@@ -86,7 +121,7 @@
         </section>
     </section>
     <!-- Main content -->
-    <section class="content">
+    {{-- <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -123,5 +158,121 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
+@endsection
+
+@section('footer')
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script>
+    Highcharts.chart('chartHighest', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Highest Total Score'
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: [
+            '',
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total Score'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true
+            }
+        }
+        
+    },
+    series: [{
+        name: {!! json_encode($highestName[0]) !!},
+        data: [{!! json_encode($highestScore[0]) !!}],
+
+    },
+    {
+        name: {!! json_encode($highestName[1]) !!},
+        data: [{!! json_encode($highestScore[1]) !!}],
+    },
+    {
+        name: {!! json_encode($highestName[2]) !!},
+        data: [{!! json_encode($highestScore[2]) !!}],
+    },
+]
+});
+
+Highcharts.chart('chartLowest', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Lowest Total Score'
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: [
+            '',
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total Score'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+    series: [{
+        name: {!! json_encode($lowestName[0]) !!},
+        data: [{!! json_encode($lowestScore[0]) !!}],
+
+    },
+    {
+        name: {!! json_encode($lowestName[1]) !!},
+        data: [{!! json_encode($lowestScore[1]) !!}],
+    },
+    {
+        name: {!! json_encode($lowestName[2]) !!},
+        data: [{!! json_encode($lowestScore[2]) !!}],
+    },
+]
+});
+</script>
 @endsection

@@ -84,4 +84,10 @@ $(document).ready(function () {
     $('#tanggalExport').daterangepicker({
         parentEl: "#exportAbsent .modal-body"
     });
+
+    $('#tanggalChart').datepicker({
+        format: "yyyy-mm",
+        startView: "months",
+        minViewMode: "months"
+    });
 });

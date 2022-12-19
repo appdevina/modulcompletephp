@@ -20,7 +20,10 @@
 <script src="{{ asset('template') }}/plugins/select2/js/select2.full.min.js"></script>
 <!-- date-range-picker -->
 <script src="{{ asset('template') }}/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
 <script src="{{ asset('script.js') }}"></script>
+@yield('footer')
 </body>
 
 </html>
