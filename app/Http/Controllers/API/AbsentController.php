@@ -19,6 +19,7 @@ class AbsentController extends Controller
             $data = explode('-', preg_replace('/\s+/', '', $request->date));
             $date1 = Carbon::parse($data[0])->format('Y-m-d');
             $date2 = Carbon::parse($data[1])->format('Y-m-d');
+            $date2 = date('Y-m-d', strtotime('+ 1 day'));
             $absents = Absent::with('user')
                 ->whereBetween('created_at', [$date1, $date2])
                 ->orderBy('created_at')
