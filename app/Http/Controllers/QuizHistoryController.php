@@ -61,13 +61,13 @@ class QuizHistoryController extends Controller
             $lowestScore = [];
 
             foreach($highestValue as $user){
-                $highestName[] = $user->user->full_name;
-                $highestScore[] = $user->highestValue;
+                $highestName[] = $user->user->full_name ?? 'Nonactive user';
+                $highestScore[] = $user->highestValue ?? 0;
             }
 
             foreach($lowestValue as $value){
-                $lowestName[] = $value->user->full_name;
-                $lowestScore[] = $value->lowestValue;
+                $lowestName[] = $value->user->full_name ?? 'Nonactive user';
+                $lowestScore[] = $value->lowestValue ?? 0;
             }
 
             if ($highestName == [] || $highestScore == [] || $lowestName == [] || $lowestScore == []) {

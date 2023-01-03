@@ -92,7 +92,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $history->quiz->document->name }}</td>
-                                            <td>{{ $history->user->full_name }}</td>
+                                            <td>{{ $history->user->full_name ?? 'Nonactive user'}}</td>
                                             <td>{{ $history->value }}</td>
                                             <td>{{ date('d M Y H:i', $history->created_at / 1000) }}</td>
                                             <td>
@@ -100,7 +100,7 @@
                                                     data-toggle="tooltip" title="view" class="badge bg-primary"><span><i
                                                             class="fas fa-eye"></i></span></a>
                                                 <a href={{ '/quiz/history/delete/' . $history->id }}
-                                                    onclick="return confirm('Apalah anda yakin menghapus quiz {{ $history->quiz->document->name }} atas nama {{ $history->user->full_name }}?')"
+                                                    onclick="return confirm('Apalah anda yakin menghapus quiz {{ $history->quiz->document->name }} atas nama {{ $history->user->full_name ?? 'Nonactive user' }}?')"
                                                      data-toggle="tooltip" title="view"
                                                     class="badge bg-danger"><span><i
                                                             class="fas fa-times-circle"></i></span></a>

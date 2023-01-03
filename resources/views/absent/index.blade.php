@@ -44,7 +44,7 @@
                                         @foreach ($absents as $absent)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $absent->user->full_name }}</td>
+                                                <td>{{ $absent->user->full_name ?? 'Nonactive user'}}</td>
                                                 <td>{{ $absent->created_at->format('d M Y H:i') }}</td>
                                             </tr>
                                         @endforeach

@@ -45,7 +45,7 @@ class QuizAllHistoryExport implements FromCollection, WithHeadings, WithMapping
     public function map($row): array
     {
         return [
-            $row->user->full_name,
+            $row->user->full_name ?? 'Nonactive user',
             $row->value ? 'Benar' : 'Salah',
             $row->question->question,
             $row->option->content,

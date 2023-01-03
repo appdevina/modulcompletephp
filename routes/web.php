@@ -61,7 +61,7 @@ Route::middleware(['auth','isAdmin'])->group(
         Route::post('quiz/{quiz}', [QuizController::class, 'update']);
         Route::get('quiz/history/{quizHistory}', [QuizHistoryController::class, 'show']);
         Route::get('quiz/delete/{quiz}', [QuizController::class, 'destroy']);
-        Route::get('quiz/result/export/{quiz}', [QuizController::class, 'export']);
+        Route::post('quiz/result/export/{quiz}', [QuizController::class, 'export']);
         Route::get('quiz/history/export/{quizHistory}', [QuizController::class, 'exporthistory']);
         Route::get('quiz/history/delete/{quizHistory}', [QuizHistoryController::class, 'destroy']);
         Route::get('quiz/history/exportall/{quiz}', [QuizController::class, 'exportAllHistory']);

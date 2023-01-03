@@ -76,12 +76,13 @@
                                             <td>{{ $quiz->document->joblevel->name }}</td>
                                             <td>{{ date('d M Y H:i', $quiz->start / 1000) }}</td>
                                             <td>{{ date('d M Y H:i', $quiz->end / 1000) }}</td>
-                                            <td><a href="quiz/result/export/{{ $quiz->id }}" target='#'
-                                                    data-toggle="tooltip" title="download" class="badge bg-success"><span><i
-                                                            class="fas fa-download"></i></span></a>
+                                            <td><a 
+                                                    data-toggle="modal" title="download" class="badge bg-primary"><span><i
+                                                            class="fas fa-download" data-id="{{ $quiz->id }}" onclick="$('#dataid').val($(this).data('id')); $('#resultQuiz').modal('show');"></i> Result </span></a>
                                                 <a href={{ '/quiz/history/exportall/' . $quiz->id }} target='#'
                                                     data-toggle="tooltip" title="download" class="badge bg-success"><span><i
-                                                            class="fas fa-download"></i> All </span></a>
+                                                            class="fas fa-download"></i> Detailed </span></a>
+                                                {{-- <button data-id="{{ $quiz->id }}"  onclick="$('#dataid').val($(this).data('id')); $('#resultQuiz').modal('show');" >click me</button> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -95,6 +96,38 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal Result-->
+    <form action="quiz/result/export/{{ $quiz->id }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="modal fade" id="resultQuiz" tabindex="-1" aria-labelledby="resultQuiz" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addQuizLabel">Download Result</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3 col-lg-12">
+                            <label for="dataid" class="form-label">ID Quiz</label>
+                            <input type="text" name="dataid" id="dataid" class="form-control" readonly/>
+                        </div>
+                        <div class="mb-3 col-lg-12">
+                            <label for="kkm" class="form-label">Nilai Min</label>
+                            <input type="text" class="form-control" id="kkm" name="kkm" required>
+                        </div>
+                        <div class="mb-3 col-lg-12">
+                            <label for="denda" class="form-label">Denda</label>
+                            <input type="text" class="form-control" id="denda" name="denda" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
     <!-- Modal -->
     <form action="/quiz" method="POST" enctype="multipart/form-data">

@@ -42,7 +42,7 @@ class AbsentExport implements FromCollection, WithHeadings, WithMapping
     public function map($row): array
     {
         return [
-            $row->user->full_name,
+            $row->user->full_name ?? 'Nonactive users',
             $row->created_at->format('d M Y H:i')
         ];
     }
