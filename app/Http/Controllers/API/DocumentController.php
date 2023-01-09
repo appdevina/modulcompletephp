@@ -49,6 +49,13 @@ class DocumentController extends Controller
                 case 'quiz':
                     $document = Document::where('divisi_id', auth()->user()->divisi_id)->where('document_type', 7)->orderBy('name')->get();
                     break;
+                case 'budaya-sales':
+                    if (Str::contains($request->search, 'budaya')) {
+                            $document = Document::where('name', 'like', '%' . $request->search . '%')->where('document_type', 8)->first();
+                    } else {
+                        $document = Document::where('name', 'like', '%' . $request->search . '%')->where('document_type', 8)->first();
+                    }
+                    break;
                 default:
                     $document = Document::where('document_type',6)->orderBy('name')->get();
                     break;

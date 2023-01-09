@@ -20,7 +20,7 @@
                                     <a href="#"><button class="badge bg-success mx-3 elevation-0" data-toggle="modal"
                                             data-target="#importQuestion">NEW IMPORT</button></a>
                                     <a href="#"><button class="badge bg-warning mx-3 elevation-0" data-toggle="modal"
-                                            data-target="#extraimportQuestion">EXTRA IMPORT</button></a>
+                                            data-target="#extraimportQuestion">UPDATE QUESTION</button></a>
                                 </div>
                                 <div class="card-tools">
                                     <div class="input-group input-group-sm" style="width: 150px;">
