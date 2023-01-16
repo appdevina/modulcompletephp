@@ -8,6 +8,7 @@ use App\Models\Quiz;
 use App\Models\QuizHistory;
 use App\Models\QuizQuestion;
 use App\Models\QuizUserAnswer;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -105,6 +106,27 @@ class QuizController extends Controller
                 $q->withTrashed();
             }])->where('user_id', auth()->id())->get();
             return ResponseFormatter::success($history, 'berhasil');
+        } catch (Exception $e) {
+            return ResponseFormatter::error(null, $e->getMessage());
+        }
+    }
+
+    public function getscore(Request $request)
+    {
+        $startMonth = Carbon::parse($request->month)->startOfMonth()->format('Y-m-d');
+        $endMonth = Carbon::parse($request->month)->endOfMonth()->format('Y-m-d');
+
+        try {
+            $highestValue = QuizHistory::with(['user', 'user.divisi', 'user.subdivisi', 'user.joblevel'])
+            ->whereHas('user', function ($q) {
+                $q->where('divisi_id', auth()->user()->divisi_id);
+            })
+            ->whereBetween('created_at', [$startMonth, $endMonth])
+                ->selectRaw('user_id, sum(value) as highestValue')
+                ->groupBy('user_id')
+                ->orderBy('highestValue', 'DESC')
+                ->get();
+            return ResponseFormatter::success($highestValue, 'berhasil');
         } catch (Exception $e) {
             return ResponseFormatter::error(null, $e->getMessage());
         }

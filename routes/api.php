@@ -35,6 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('quiz/isquizable/{quiz}',[QuizController::class,'isquizable']);
     Route::get('quiz/calculate/{quiz}', [QuizController::class, 'calculate']);
     Route::get('quiz/history/', [QuizController::class, 'history']);
+    Route::get('quiz/getscore', [QuizController::class, 'getscore']);
 
     ##ABSENT
     Route::get('check', [AbsentController::class, 'checkAbsent']);

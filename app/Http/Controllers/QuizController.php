@@ -138,17 +138,8 @@ class QuizController extends Controller
     public function export(Request $request)
     {
         try {
-            #DVN CODE
-            // $document_id = Quiz::query()
-            // ->where('id', $request->dataid)
-            // ->pluck('document_id');
-
-            // $document = Document::where('id', $document_id)
-            // ->first();
 
             $quiz = Quiz::find($request->dataid);
-
-            dd($quiz->document->divisi);
 
             return Excel::download(new QuizResultExport($quiz->id, $quiz->document->divisi->id, $request->kkm, $request->denda), 'QUIZ RESULT ' . $quiz->document->name . '.xlsx');
         } catch (Exception $e) {

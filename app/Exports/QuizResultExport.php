@@ -13,6 +13,7 @@ class QuizResultExport implements FromCollection, WithHeadings, WithMapping
     protected int $quizId;
     protected int $divisi_id;
     protected int $kkm;
+    protected int $denda;
 
     function __construct(int $quizId, int $divisi_id, int $kkm, int $denda)
     {
@@ -24,15 +25,9 @@ class QuizResultExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-
-        // $quizs = QuizHistory::with(['user' => function ($q) {
-        //     $q->withTrashed();
-        // }])->where('quiz_id', $this->quizId)->withTrashed()->get();
-
         $result = [];
         $users = User::where('divisi_id', $this->divisi_id)->get();
         foreach ($users as $user) {
-            $data = [];
             $dataQuizUser = QuizHistory::with('quiz')->where('quiz_id', $this->quizId)->where('user_id', $user->id)->withTrashed()->first();
             array_push($result, [
                 'full_name' => $user->full_name ?? 'Nonactive user',
