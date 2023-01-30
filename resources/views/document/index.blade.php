@@ -24,20 +24,43 @@
                                             ADD</button>
                                     </a>
                                 </div>
-                                <div class="card-tools">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                <div class="card-tools d-flex">
+                                    <div class="input-group input-group-sm mr-3" style="max-width: 440px;">
                                         <form action="/document" class="d-inline-flex">
-                                            <input type="text" name="search" class="form-control float-right"
+                                            <select class="custom-select col-lg-12 mx-2" name="divisi_id" id="divisi_id"
+                                                required style="max-width: 180px">
+                                                <option value="">Choose Divisi</option>
+                                                @foreach ($divisis as $divisi)
+                                                    <option value="{{ $divisi->id }}">{{ $divisi->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <select class="custom-select col-lg-12 mx-2" name="doctype_id" id="doctype_id"
+                                                required style="max-width: 200px">
+                                                <option value="">Choose Document Type</option>
+                                                @foreach ($doctypes as $doctype)
+                                                    <option value="{{ $doctype->id }}">{{ $doctype->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append" style="max-width: 20px">
+                                                <button type="submit" class="btn btn-default">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="input-group input-group-sm" style="width: 220px;">
+                                        <form action="/document" class="d-inline-flex">
+                                            <input type="text" name="search" class="form-control"
                                                 placeholder="Cari">
                                             <div class="input-group-append">
                                                 <button type="submit" class="btn btn-default">
                                                     <i class="fas fa-search"></i>
                                                 </button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ $message }}</strong>

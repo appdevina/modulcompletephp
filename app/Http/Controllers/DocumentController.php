@@ -21,10 +21,26 @@ class DocumentController extends Controller
      */
     public function index(Request $request)
     {
+        $divisis = Divisi::all();
+        $doctypes = DokumenType::all();
+
+        if ($request->divisi_id && $request->doctype_id) {
+            $documents = Document::where('divisi_id', $request->divisi_id)
+             ->where('document_type', $request->doctype_id)
+             ->orderBy('name')
+             ->withTrashed()
+            ->get();
+
+        } else {
+            $documents = Document::with(['divisi', 'subdivisi', 'joblevel', 'dokumentype'])->withTrashed()->filter()->orderBy('name')->get();
+        }
+
         return view('document.index', [
             'title' => 'Documents',
             'active' => 'document',
-            'documents' => Document::with(['divisi', 'subdivisi', 'joblevel', 'dokumentype'])->withTrashed()->filter()->orderBy('name')->get(),
+            'divisis' => $divisis,
+            'doctypes' => $doctypes,
+            'documents' => $documents,
         ]);
     }
 
