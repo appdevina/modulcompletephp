@@ -135,6 +135,17 @@ class QuizQuestionController extends Controller
     public function import(Request $request)
     {
         try {
+            ##KALAU IMPORT QUESTION MAU DIBEDAKAN FUNGSINYA
+            //validasi if tipe == update / newimport
+            //if tipe==update, query ke question yang document_id == $request->document_id abis itu loop & delete
+            // if ($request->type == "updateImport") {
+            //     $questions = QuizQuestion::where('document_id', $request->document_id)->get();
+
+            //     foreach ($questions as $q) {
+            //         $q->delete();
+            //     }
+            // }
+
             $file = $request->file('file');
             $namaFile = $file->getClientOriginalName();
             $file->move(public_path('import'), $namaFile);

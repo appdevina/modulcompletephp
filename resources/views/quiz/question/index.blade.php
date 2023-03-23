@@ -108,6 +108,7 @@
                             <label for="formFile" class="form-label">Pilih File</label>
                             <input class="form-control" type="file" id="formFile" name="file">
                         </div>
+                            <input class="form-control" type="hidden" name="type" value="newImport">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -140,6 +141,7 @@
                             <label for="formFile" class="form-label">Pilih File</label>
                             <input class="form-control" type="file" id="formFile" name="file">
                         </div>
+                            <input class="form-control" type="hidden" name="type" value="updateImport">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

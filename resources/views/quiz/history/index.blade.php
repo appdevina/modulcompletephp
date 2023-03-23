@@ -8,6 +8,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="container-fluid bg-white">
+                            @if ($message = Session::get('chartError'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @endif
                             <br>
                             <div class="row float-right">
                                 <div class="card-tools d-flex">
@@ -15,6 +20,12 @@
                                         <form action="/quiz/history" class="d-inline-flex float-right">
                                             <input type="text" class="form-control float-right" value="" name="dateChart"
                                                 id="tanggalChart" placeholder="Pilih Bulan .." required>
+                                            <select class="custom-select col-4 mx-1" name="joblevel"
+                                            required>
+                                                @foreach ($joblevels as $joblevel)
+                                                    <option value="{{ $joblevel->id }}">{{ $joblevel->name }}</option>
+                                                @endforeach
+                                            </select>
                                             <div class="input-group-append float-right">
                                                 <button type="submit" class="btn btn-default">
                                                     <i class="fas fa-search"></i>

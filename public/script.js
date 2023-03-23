@@ -1,93 +1,114 @@
 $(document).ready(function () {
-    $('.select2').select2()
-    $subdiv = $('.addusersubdivisi');
+    $(".select2").select2();
+    $subdiv = $(".addusersubdivisi");
     $subdiv.append('<option value="">---Choose Divisi First--</option>');
-    $('.adduserdivisi').change(function (e) {
+    $(".adduserdivisi").change(function (e) {
         var $divisiId = $(".adduserdivisi").val();
         if ($divisiId === "") {
             $subdiv.empty();
-            $subdiv.append('<option value="">---Choose Divisi First--</option>');
+            $subdiv.append(
+                '<option value="">---Choose Divisi First--</option>'
+            );
         } else {
             $subdiv.empty();
             $.ajax({
                 type: "GET",
-                url: 'http://modul.completeselular.com:8888/subdivisi/get/' + $divisiId,
+                url: "http://modul.sytes.net:8888/subdivisi/get/" + $divisiId,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (index, value) {
-                            $subdiv.append('<option value="' + value.id + '">' +
-                                value
-                                    .name + '</option>');
+                            $subdiv.append(
+                                '<option value="' +
+                                    value.id +
+                                    '">' +
+                                    value.name +
+                                    "</option>"
+                            );
                         });
                     } else {
                         $subdiv.append('<option value="">-</option>');
                     }
-                }
+                },
             });
         }
     });
 
-
-    $('.edituserdivisi').change(function (e) {
+    $(".edituserdivisi").change(function (e) {
         var $divisiId = $(".edituserdivisi").val();
-        $subdivedit = $('.editusersubdivisi');
+        $subdivedit = $(".editusersubdivisi");
         if ($divisiId === "") {
             $subdivedit.empty();
-            $subdivedit.append('<option value="">---Choose Divisi First--</option>');
+            $subdivedit.append(
+                '<option value="">---Choose Divisi First--</option>'
+            );
         } else {
             $subdivedit.empty();
             $.ajax({
                 type: "GET",
-                url: 'http://modul.completeselular.com:8888/subdivisi/get/' + $divisiId,
+                url: "http://modul.sytes.net:8888/subdivisi/get/" + $divisiId,
                 success: function (data) {
                     if (data.length > 0) {
                         $.each(data, function (index, value) {
-                            $subdivedit.append('<option value="' + value.id + '">' +
-                                value
-                                    .name + '</option>');
+                            $subdivedit.append(
+                                '<option value="' +
+                                    value.id +
+                                    '">' +
+                                    value.name +
+                                    "</option>"
+                            );
                         });
                     } else {
                         $subdivedit.append('<option value="">-</option>');
                     }
-                }
+                },
             });
         }
     });
 
-    $('.viewoption').click(function (e) {
-        var $option = $('#options');
+    $(".viewoption").click(function (e) {
+        var $option = $("#options");
         $option.empty();
-        var $id = $(this).data('id');
+        var $id = $(this).data("id");
         $.ajax({
             type: "GET",
-            url: 'http://modul.completeselular.com:8888/option/get?id=' + $id,
+            url: "http://modul.sytes.net:8888/option/get?id=" + $id,
             success: function (data) {
-                $('#modalOptionLabel').empty();
-                $('#modalOptionLabel').append(data[0].question.question);
+                $("#modalOptionLabel").empty();
+                $("#modalOptionLabel").append(data[0].question.question);
                 $.each(data, function (index, value) {
-                    $option.append('<div id="option' + index + '" class="col-12 d-flex justify-content-between"><p>' + value.content + '</p></div>');
+                    $option.append(
+                        '<div id="option' +
+                            index +
+                            '" class="col-12 d-flex justify-content-between"><p>' +
+                            value.content +
+                            "</p></div>"
+                    );
                     if (value.is_true) {
-                        $('#option' + index).append('<div><button class="btn far fa-check-circle" style="color: green;"></button></div>');
+                        $("#option" + index).append(
+                            '<div><button class="btn far fa-check-circle" style="color: green;"></button></div>'
+                        );
                     }
                 });
-            }
+            },
         });
-        $('#modalOption').modal('show');
+        $("#modalOption").modal("show");
     });
 
-    $('#modalClose').click(function (e) {
-        $('#modalOption').modal('hide');
+    $("#modalClose").click(function (e) {
+        $("#modalOption").modal("hide");
     });
 
-    $('#tanggal').daterangepicker();
+    $("#tanggal").daterangepicker();
 
-    $('#tanggalExport').daterangepicker({
-        parentEl: "#exportAbsent .modal-body"
+    $("#tanggalExport").daterangepicker({
+        parentEl: "#exportAbsent .modal-body",
     });
 
-    $('#tanggalChart').datepicker({
+    $("#bulanChart").datepicker({
         format: "yyyy-mm",
         startView: "months",
-        minViewMode: "months"
+        minViewMode: "months",
     });
+
+    $("#tanggalChart").daterangepicker();
 });

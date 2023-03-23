@@ -7,7 +7,9 @@ use App\Http\Requests\UpdateQuizHistoryRequest;
 use App\Models\QuizHistory;
 use Illuminate\Http\Request;
 use App\Models\QuizUserAnswer;
+use App\Models\JobLevel;
 use Exception;
+use Carbon\Carbon;
 
 class QuizHistoryController extends Controller
 {
@@ -19,25 +21,44 @@ class QuizHistoryController extends Controller
     public function index(Request $request)
     {
         try {
-            if ($request->dateChart) {
-                $dateChart = $request->dateChart;
-                //dd($dateChart);
+            if ($request->dateChart && $request->joblevel) {
+                $data = explode('-', preg_replace('/\s+/', '', $request->dateChart));
+                $date1 = Carbon::parse($data[0])->format('Y-m-d');
+                $date2 = Carbon::parse($data[1])->format('Y-m-d');
+                $date2 = date('Y-m-d', strtotime('+ 1 day', strtotime($date2)));
+                $joblevel = $request->joblevel;
 
-                $highestValue = QuizHistory::with('user')
-                 ->selectRaw('user_id, sum(value) as highestValue')
-                 ->where('created_at', 'LIKE', '%'.$dateChart.'%')
-                 ->groupBy('user_id')
-                 ->orderBy('highestValue', 'DESC')
-                 ->limit(3)
-                 ->get();
+                $highestValue = QuizHistory::with('user', 'user.joblevel')
+                ->selectRaw('user_id, sum(value) as highestValue')
+                ->whereBetween('created_at', [$date1, $date2])
+                ->whereHas('user', function ($query) use ($joblevel) {
+                    $query->whereHas('joblevel', function ($query) use ($joblevel) {
+                        $query->where('job_level_id', $joblevel);
+                    })
+                    ->whereNull('deleted_at');
+                })
+                ->groupBy('user_id')
+                ->orderBy('highestValue', 'DESC')
+                ->limit(3)
+                ->get();
 
-                 $lowestValue = QuizHistory::with('user')
+                $lowestValue = QuizHistory::with('user', 'user.joblevel')
                 ->selectRaw('user_id, sum(value) as lowestValue')
-                ->where('created_at', 'LIKE', '%'.$dateChart.'%')
+                ->whereBetween('created_at', [$date1, $date2])
+                ->whereHas('user', function ($query) use ($joblevel) {
+                    $query->whereHas('joblevel', function ($query) use ($joblevel) {
+                        $query->where('job_level_id', $joblevel);
+                    })
+                    ->whereNull('deleted_at');
+                })
                 ->groupBy('user_id')
                 ->orderBy('lowestValue', 'ASC')
                 ->limit(3)
                 ->get();
+
+                if ($highestValue->count() < 3 || $lowestValue->count() < 3) {
+                    return redirect('quiz/history')->with(['chartError' => 'Data kurang dari 3, harap pilih lebih range tanggal lebih banyak !']);
+                }
 
             } else {
                 $highestValue = QuizHistory::with('user')
@@ -98,6 +119,7 @@ class QuizHistoryController extends Controller
              'lowestValue' => $lowestValue,
              'lowestName' => $lowestName,
              'lowestScore' => $lowestScore,
+             'joblevels' => JobLevel::all()->except(1),
         ]);
     }
 
