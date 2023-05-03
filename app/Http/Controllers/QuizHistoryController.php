@@ -111,8 +111,15 @@ class QuizHistoryController extends Controller
                     $q->withTrashed()
                         ->where('full_name', "like", '%' . $request->search . '%')
                         ->orWhere('username', "like", '%' . $request->search . '%');
-                })->orderBy('created_at', 'DESC')->simplePaginate(100) : QuizHistory::with(['user', 'quiz.document'])->orderBy('created_at', 'DESC')
-                ->simplePaginate(100),
+                })->orderBy('created_at', 'DESC')->simplePaginate(100) :
+                ($request->filterJobLevel ? QuizHistory::withTrashed()
+                ->with(['user', 'quiz.document'])
+                ->whereHas('user', function ($q) use ($request) {
+                    $q->withTrashed()
+                        ->where('job_level_id', $request->filterJobLevel);
+                })->orderBy('created_at', 'DESC')->simplePaginate(100)
+                : QuizHistory::with(['user', 'quiz.document'])->orderBy('created_at', 'DESC')
+                ->simplePaginate(100)),
              'highestValue' => $highestValue,
              'highestName' => $highestName,
              'highestScore' => $highestScore,

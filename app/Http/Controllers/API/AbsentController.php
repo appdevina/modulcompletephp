@@ -25,7 +25,7 @@ class AbsentController extends Controller
                 ->orderBy('created_at')
                 ->get();
         } else {
-            $absents = Absent::simplePaginate(10);
+            $absents = Absent::orderBy('created_at','DESC')->simplePaginate(10);
         }
 
         return view('absent.index',[

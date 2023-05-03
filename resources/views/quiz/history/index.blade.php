@@ -61,12 +61,27 @@
                                         <button class="badge bg-primary mx-3 elevation-0">EXPORT
                                             ALL</button></a> --}}
                                 </div>
-                                <div class="card-tools">
-                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                <div class="card-tools d-flex">
+                                    <div class="input-group input-group-sm mr-3" style="max-width: 440px;">
                                         <form action="/quiz/history" class="d-inline-flex">
-                                            <input type="text" name="search" class="form-control float-right"
+                                            <select class="custom-select col-lg-12 mx-2" name="filterJobLevel"
+                                            required>
+                                                @foreach ($joblevels as $joblevel)
+                                                    <option value="{{ $joblevel->id }}">{{ $joblevel->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group-append float-right">
+                                                <button type="submit" class="btn btn-default">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="input-group input-group-sm" style="width: 300px;">
+                                        <form action="/quiz/history" class="d-inline-flex">
+                                            <input type="text" name="search" class="form-control"
                                                 placeholder="Cari">
-                                            <div class="input-group-append">
+                                            <div class="input-group-append float-right">
                                                 <button type="submit" class="btn btn-default">
                                                     <i class="fas fa-search"></i>
                                                 </button>
