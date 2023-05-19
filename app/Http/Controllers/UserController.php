@@ -161,6 +161,7 @@ class UserController extends Controller
             if ($request->password == null) {
                 $data['password'] = $user['password'];
             }
+            $data['password'] = bcrypt($data['password']);
             $user->update($data);
             return redirect('user')->with(['success' => 'Berhasil merubah user']);
         } catch (Exception $e) {
