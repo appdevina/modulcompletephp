@@ -11,7 +11,9 @@
                                 <h3 class="card-title">Questions &raquo; {{ $document->name }} &raquo; {{ $nonactive ? 'NONACTIVE' : 'ACTIVE' }}</h3>
                             </div>
                             <div class="card-tools">
-                                <div class="input-group input-group-sm" style="width: 400px;">
+                                <div class="input-group input-group-sm" style="width: 550px;">
+                                    <a href="/question/{{ $document->id }}/deleteAll"><button class="badge bg-danger">DELETE ALL</button></a>
+                                    <a href="/question/{{ $document->id }}/activeAll"><button class="badge bg-success">ACTIVE ALL</button></a>
                                     <form action="/question/{{ $document->id }}" class="d-inline-flex">
                                         <input type="text" name="search" class="form-control float-right"
                                             placeholder="Cari">

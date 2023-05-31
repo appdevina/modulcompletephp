@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateQuizQuestionRequest;
 use App\Imports\QuestionImport;
 use App\Models\Document;
 use App\Models\QuizQuestion;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -67,10 +68,12 @@ class QuizQuestionController extends Controller
                 ->withTrashed()
                 ->whereNotNull('deleted_at')
                 ->filter()
+                ->orderBy('created_at', 'DESC')
                 ->get()
                 :
                 QuizQuestion::where('document_id', $id)
                 ->filter()
+                ->orderBy('created_at', 'DESC')
                 ->get(),
             'document' => Document::withTrashed()->find($id),
             'nonactive' => $request->nonactive
@@ -153,6 +156,38 @@ class QuizQuestionController extends Controller
             Excel::import(new QuestionImport($request->document_id), public_path('/import/' . $namaFile));
             unlink(public_path('/import/' . $namaFile));
             return redirect('question')->with(['success' => 'berhasil import questions']);
+        } catch (Exception $e) {
+            return redirect('question')->with(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function deleteAll($id)
+    {
+        try {
+            $questions = QuizQuestion::where('document_id', $id)->get();
+
+            foreach ($questions as $question) {
+                $question->deleted_at = Carbon::now();
+                $question->save();
+            }
+
+            return back()->with(['success' => 'berhasil menonaktifkan semua question']);
+        } catch (Exception $e) {
+            return redirect('question')->with(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function activeAll($id)
+    {
+        try {
+            $questions = QuizQuestion::where('document_id', $id)->withTrashed()->get();
+
+            foreach ($questions as $question) {
+                $question->deleted_at = null;
+                $question->save();
+            }
+
+            return back()->with(['success' => 'berhasil mengaktifkan semua question']);
         } catch (Exception $e) {
             return redirect('question')->with(['error' => $e->getMessage()]);
         }

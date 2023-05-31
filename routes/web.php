@@ -49,6 +49,8 @@ Route::middleware(['auth','isAdmin'])->group(
         Route::get('question/delete/{quizQuestion}', [QuizQuestionController::class, 'destroy']);
         Route::get('question/active/{id}', [QuizQuestionController::class, 'restore']);
         Route::get('question/{id}', [QuizQuestionController::class, 'show']);
+        Route::get('question/{id}/deleteAll', [QuizQuestionController::class, 'deleteAll']);
+        Route::get('question/{id}/activeAll', [QuizQuestionController::class, 'activeAll']);
 
         ##QUIZ_OPTION
         Route::get('option/get', [QuizOptionController::class, 'get']);
